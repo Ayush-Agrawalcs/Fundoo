@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import signupImage from '../../assets/signup.jpeg'
 import './signup.css'
 import Home from '../../DashBoard/Home.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 
 function Signup() {
   const navigate=useNavigate();
@@ -128,6 +128,7 @@ const handleSubmit = (e) => {
         <TextField
         label="password"
   name="password"
+  type="password"
   value={formData.password}
   onChange={handleChange}
   error={errors.password}
@@ -136,6 +137,7 @@ const handleSubmit = (e) => {
         <TextField
         label="Confirm password"
   name="confirmPassword"
+  type="password"
   value={formData.confirmPassword}
   onChange={handleChange}
   error={errors.confirmPassword}
@@ -149,7 +151,7 @@ const handleSubmit = (e) => {
             </CardContent>
 
           <CardActions>
-            <Button size="small" sx={{paddingLeft: 2}}>Sign in Instead</Button>
+            <Button size="small" sx={{paddingLeft: 2}} component={Link} to="/signin">Sign in Instead</Button>
             <div className='but'>
           <Button
   size="large"

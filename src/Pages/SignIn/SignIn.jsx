@@ -79,6 +79,7 @@ function SignIn() {
               <TextField
                 label="password"
                 name="password"
+                type="password"
                 value={formdata.password}
                 onChange={handlechange}
                 error={errors.password}
