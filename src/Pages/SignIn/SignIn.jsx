@@ -22,21 +22,39 @@ function SignIn() {
       [e.target.name]: e.target.value
     })
   }
-  const handlesubmit=(e)=>{
-    let newError={};
-    if(!formdata.email.endsWith('@gmail.com')){
-      newError.email='Email must end with @gmail.com'
-    }
-    if(formdata.password.length<8){
-      newError.password='Password must be at least 8 characters'
-    }
-    if(Object.keys(newError).length>0){
-      setErrors(newError)
-    }else{
-      setErrors({})
-      navigate('/');
-    }
+const handlesubmit = (e) => {
+  e.preventDefault();
+  let newError = {};
+
+  const userData = JSON.parse(localStorage.getItem('userData'));
+
+  if (!userData) {
+    setErrors({ general: "User not found. Please sign up." });
+    return;
   }
+
+  if (!formdata.email.endsWith('@gmail.com')) {
+    newError.email = 'Email must end with @gmail.com';
+  } 
+  else if (formdata.email !== userData.email) {
+    newError.email = 'Email does not match';
+  }
+
+  if (formdata.password.length < 8) {
+    newError.password = 'Password must be at least 8 characters';
+  } 
+  else if (formdata.password !== userData.password) {
+    newError.password = 'Incorrect password';
+  }
+
+  if (Object.keys(newError).length > 0) {
+    setErrors(newError);
+  } else {
+    setErrors({});
+    navigate('/');
+  }
+};
+
   return (
     <div className='dt'>
       <Card sx={{ maxWidth: 1000 }}>
