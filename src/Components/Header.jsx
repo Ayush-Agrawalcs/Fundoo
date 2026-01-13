@@ -21,8 +21,9 @@ import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
 
-/* ===== Styled Components ===== */
+import { useDrawer } from './DrawerContext';
 
+/* ===== Styled Components ===== */
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -63,6 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const { toggleDrawer }  = useDrawer();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleProfileMenuOpen = (event) => {
@@ -76,12 +78,12 @@ export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="static"
-        sx={{ backgroundColor: '#ffffff', color: '#000000' }}
+        position="fixed"
+        sx={{ backgroundColor: '#ffffff', color: '#000000',top:0 ,left:0,zIndex: (theme) => theme.zIndex.drawer + 1}}
       >
         <Toolbar sx={{ position: 'relative' }}>
           {/* Left section */}
-          <IconButton size="large" edge="start" color="inherit">
+          <IconButton size="large" edge="start" color="inherit" onClick={toggleDrawer}>
             <MenuIcon />
           </IconButton>
 

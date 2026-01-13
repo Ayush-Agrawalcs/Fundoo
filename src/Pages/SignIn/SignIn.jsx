@@ -7,9 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import  {useNavigate,Link} from 'react-router-dom';
-import Home from '../../DashBoard/Home.jsx';
 import './signIn.css'
-import Signup from '../Signup/Signup.jsx';
 
 function SignIn() {
   const navigate=useNavigate()
@@ -49,7 +47,7 @@ function SignIn() {
           <Typography gutterBottom variant="h5" sx={{ fontWeight: 'bold', color: 'black', paddingLeft: 1 }} component="div">
             Sign in
           </Typography>
-          <Typography gutterBottom variant="h6" sx={{ color: 'black', paddingLeft: 1 }} component="div">
+          <Typography gutterBottom variant="h6" sx={{ color: 'black', paddingLeft: 1,opacity:0.4 }} component="div">
             to continue to Fundoo
           </Typography>
           <Box component="form"
@@ -66,7 +64,7 @@ function SignIn() {
                 error={errors.email}
                 helperText={errors.email}
               />
-              <Typography variant="body2" color="text.secondary" sx={{ color: 'black', fontSize: '15px', paddingLeft: 1, paddingBottom: 3 }}>
+              <Typography variant="body2" color="text.secondary" sx={{ color: 'black', fontSize: '15px', paddingLeft: 1, paddingBottom: 3,opacity:0.4 }}>
                 use only letters,numbers & periods
               </Typography>
             </div>
@@ -86,7 +84,7 @@ function SignIn() {
                 error={errors.password}
                 helperText={errors.password}
               />
-               <Typography variant="body2" color="text.secondary" sx={{color:'black', fontSize:'15px',paddingLeft: 1,paddingBottom: 3}}>
+               <Typography variant="body2" color="text.secondary" sx={{color:'black', fontSize:'15px',paddingLeft: 1,paddingBottom: 3,opacity:0.4}}>
               use only letters,numbers & periods
             </Typography>
             </div>
