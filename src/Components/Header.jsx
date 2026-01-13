@@ -64,32 +64,32 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-  const { toggleDrawer }  = useDrawer();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { toggleDrawer } = useDrawer()
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="fixed"
-        sx={{ backgroundColor: '#ffffff', color: '#000000',top:0 ,left:0,zIndex: (theme) => theme.zIndex.drawer + 1}}
+        sx={{
+          bgcolor: '#fff',
+          color: '#000',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
       >
-        <Toolbar sx={{ position: 'relative' }}>
-          {/* Left section */}
-          <IconButton size="large" edge="start" color="inherit" onClick={toggleDrawer}>
+        <Toolbar>
+          <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
             <MenuIcon />
           </IconButton>
 
           <img
             src="https://www.gstatic.com/images/branding/product/2x/keep_2020q4_48dp.png"
-            style={{ width: 40, height: 40 }}
+            width={40}
+            height={40}
+            alt="Keep"
           />
 
           <Typography
@@ -99,17 +99,15 @@ export default function Header() {
             Keep
           </Typography>
 
-          {/* Centered Search */}
           <Box
             sx={{
-              position: 'absolute',
-              left: '35%',
-              transform: 'translateX(-50%)',
-              width: { xs: '70%', sm: '50%', md: 600 },
-
+              flexGrow: 1,
+              mx: { xs: 1, sm: 4 },
+              maxWidth: { xs: '100%', sm: 800 },
+              ml:20
             }}
           >
-            <Search sx={{ width: '100%' }}>
+            <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -117,42 +115,61 @@ export default function Header() {
             </Search>
           </Box>
 
-          <Box sx={{ flexGrow: 1 }} />
-
+          {/* DESKTOP ICONS */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" color="inherit">
-              <RefreshOutlinedIcon />
-            </IconButton>
-
-            <IconButton size="large" color="inherit">
-              <GridViewOutlinedIcon />
-            </IconButton>
-
-            <IconButton size="large" color="inherit">
-              <SettingsOutlinedIcon />
-            </IconButton>
-
-            <IconButton size="large" color="inherit" sx={{ ml: 2 }}>
-              <AppsOutlinedIcon />
-            </IconButton>
-
-            <IconButton
-              size="large"
-              edge="end"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
+            <IconButton sx={{ ml: 30 }}><RefreshOutlinedIcon /></IconButton>
+            <IconButton><GridViewOutlinedIcon /></IconButton>
+            <IconButton><SettingsOutlinedIcon /></IconButton>
+            <IconButton sx={{ ml: 10 }}><AppsOutlinedIcon /></IconButton>
+            <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
               <AccountCircle />
+            </IconButton>
+          </Box>
+
+          {/* MOBILE MENU ICON */}
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton onClick={(e) => setMobileMoreAnchorEl(e.currentTarget)}>
+              <MoreIcon />
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
 
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {/* DESKTOP PROFILE MENU */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>My account</MenuItem>
+      </Menu>
+
+      {/* MOBILE MENU */}
+      <Menu
+        anchorEl={mobileMoreAnchorEl}
+        open={isMobileMenuOpen}
+        onClose={() => setMobileMoreAnchorEl(null)}
+      >
+        <MenuItem>
+          <IconButton><RefreshOutlinedIcon /></IconButton>
+          Refresh
+        </MenuItem>
+        <MenuItem>
+          <IconButton><GridViewOutlinedIcon /></IconButton>
+          View
+        </MenuItem>
+        <MenuItem>
+          <IconButton><SettingsOutlinedIcon /></IconButton>
+          Settings
+        </MenuItem>
+        <MenuItem>
+          <IconButton><AccountCircle /></IconButton>
+          Profile
+        </MenuItem>
       </Menu>
     </Box>
-  );
+  )
 }
+
 

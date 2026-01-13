@@ -57,7 +57,8 @@ const handlesubmit = (e) => {
 
   return (
     <div className='dt'>
-      <Card sx={{ maxWidth: 1000 }}>
+      <Card sx={{ maxWidth: { xs: '90%', sm: 600, md: 800, lg: 1000 } }}>
+        <form onSubmit={handlesubmit}>
         <CardContent>
           <Typography gutterBottom variant="h5" sx={{ fontWeight: 'bold', color: '#1976d2', paddingLeft: 1 }} component="div">
             Fundoo
@@ -68,8 +69,8 @@ const handlesubmit = (e) => {
           <Typography gutterBottom variant="h6" sx={{ color: 'black', paddingLeft: 1,opacity:0.4 }} component="div">
             to continue to Fundoo
           </Typography>
-          <Box component="form"
-            sx={{ '& .MuiTextField-root': { m: 1, width: '52ch' } }}
+          <Box
+            sx={{ '& .MuiTextField-root': { m: 1, width: { xs: '100%', sm: '52ch' } } }}
             noValidate
             autoComplete="off"
           >
@@ -88,8 +89,7 @@ const handlesubmit = (e) => {
             </div>
           </Box>
           <Box
-            component="form"
-            sx={{ '& .MuiTextField-root': { m: 1, width: '55ch' } }}
+            sx={{ '& .MuiTextField-root': { m: 1, width: { xs: '100%', sm: '55ch' } } }}
             noValidate
             autoComplete="off"
           >
@@ -120,12 +120,13 @@ const handlesubmit = (e) => {
             height: 48,
             textTransform: 'none'
           }}
-          onClick={handlesubmit}
+          type="submit"
         >
           Submit
         </Button>
         </div>
                   </CardActions>
+        </form>
       </Card>
     </div>
   );

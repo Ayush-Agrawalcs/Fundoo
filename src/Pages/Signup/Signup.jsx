@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box';
+import { Box as MuiBox } from '@mui/material';
 import TextField from '@mui/material/TextField';
 
 import signupImage from '../../assets/signup.jpeg'
@@ -62,8 +63,8 @@ const handleSubmit = (e) => {
 
   return (
     <div className="dt">
-      <Card sx={{ width: 900, display: 'flex' }}>
-        
+      <Card sx={{ width: { xs: '90%', sm: 600, md: 800, lg: 900 }, display: { xs: 'block', sm: 'flex' } }}>
+        <form onSubmit={handleSubmit}>
         {/* LEFT SIDE - CONTENT */}
         <div className="content">
           <CardContent>
@@ -76,8 +77,7 @@ const handleSubmit = (e) => {
             </Typography>
 
              <Box
-      component="form"
-      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } ,paddingBottom: 3}}
+      sx={{ '& .MuiTextField-root': { m: 1, width: { xs: '100%', sm: '25ch' } } ,paddingBottom: 3}}
       noValidate
       autoComplete="off"
     >
@@ -100,8 +100,8 @@ const handleSubmit = (e) => {
         />
       </div>
       </Box>
-      <Box component="form" 
-      sx={{ '& .MuiTextField-root': { m: 1, width: '52ch' }}}
+      <Box
+      sx={{ '& .MuiTextField-root': { m: 1, width: { xs: '100%', sm: '52ch' } }}}
       noValidate
       autoComplete="off"
       >
@@ -120,8 +120,7 @@ const handleSubmit = (e) => {
       </div>
       </Box>
       <Box
-      component="form"
-      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}
+      sx={{ '& .MuiTextField-root': { m: 1, width: { xs: '100%', sm: '25ch' } } }}
       noValidate
       autoComplete="off"
     >
@@ -160,20 +159,21 @@ const handleSubmit = (e) => {
   sx={{
     width: 160,
     height: 48,
-    textTransform: 'none'
+    textTransform: 'none',
   }}
-  onClick={handleSubmit}
+  type="submit"
 >
   Submit
 </Button>
 </div>
           </CardActions>
         </div>
-        <div className="dm">
+        </form>
+        <MuiBox className="dm" sx={{ display: { xs: 'none', sm: 'block' } }}>
         <CardMedia
           component="img"
           sx={{
-    width: 250,
+    width: { xs: 200, sm: 250 },
     objectFit: 'contain',
     padding: 2
   }}
@@ -183,7 +183,7 @@ const handleSubmit = (e) => {
          <Typography variant="body2" color="text.secondary" sx={{ color:'black', fontSize:'15px', paddingRight: 6 }}>
             One account .All of Fundoo working for you
             </Typography>
-            </div>
+        </MuiBox>
       </Card>
     </div>
   )
