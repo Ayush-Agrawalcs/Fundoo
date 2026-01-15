@@ -34,17 +34,17 @@ const handlesubmit = (e) => {
   }
 
   if (!formdata.email.endsWith('@gmail.com')) {
-    newError.email = 'Email must end with @gmail.com';
+    newError.email = 'email must end with @gmail.com (for example:xyz@gmail.com) *';
   } 
   else if (formdata.email !== userData.email) {
-    newError.email = 'Email does not match';
+    newError.email = 'email does not match *';
   }
 
   if (formdata.password.length < 8) {
-    newError.password = 'Password must be at least 8 characters';
+    newError.password = 'password must be at least 8 characters *';
   } 
   else if (formdata.password !== userData.password) {
-    newError.password = 'Incorrect password';
+    newError.password = 'incorrect password *';
   }
 
   if (Object.keys(newError).length > 0) {

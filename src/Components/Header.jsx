@@ -14,14 +14,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Tooltip from '@mui/material/Tooltip';
 
 
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
+import Poper from './Poper';
 
 import { useDrawer } from './DrawerContext';
+import { useLocation } from 'react-router-dom';
 
 /* ===== Styled Components ===== */
 const Search = styled('div')(({ theme }) => ({
@@ -64,11 +67,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const location=useLocation();
+  const title=location.pathname==='/' ? 'Notes' : location.pathname.slice(1).charAt(0).toUpperCase() + location.pathname.slice(2) 
   const { toggleDrawer } = useDrawer()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+   
+   React.useEffect(()=>{
+    console.log(location.pathname);
+   },[location])
+
+  const handleProfileClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -81,7 +99,7 @@ export default function Header() {
         }}
       >
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
+          <IconButton edge="start" color="inherit" onClick={toggleDrawer} sx={{ mr: 5 }}>
             <MenuIcon />
           </IconButton>
 
@@ -90,13 +108,15 @@ export default function Header() {
             width={40}
             height={40}
             alt="Keep"
+            style={{ display:title==='Notes'?'block':'none'}}
+
           />
 
           <Typography
             variant="h6"
-            sx={{ display: { xs: 'none', sm: 'block' }, ml: 1 }}
+            sx={{ display: { xs: 'none', sm: 'block' }, ml: 1 ,mr: 5 }}
           >
-            Keep
+            {title}
           </Typography>
 
           <Box
@@ -104,7 +124,7 @@ export default function Header() {
               flexGrow: 1,
               mx: { xs: 1, sm: 4 },
               maxWidth: { xs: '100%', sm: 800 },
-              ml:20
+              mr: { xs: 5, sm: 0}
             }}
           >
             <Search>
@@ -117,13 +137,23 @@ export default function Header() {
 
           {/* DESKTOP ICONS */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton sx={{ ml: 30 }}><RefreshOutlinedIcon /></IconButton>
-            <IconButton><GridViewOutlinedIcon /></IconButton>
-            <IconButton><SettingsOutlinedIcon /></IconButton>
-            <IconButton sx={{ ml: 10 }}><AppsOutlinedIcon /></IconButton>
-            <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+            <Tooltip title="Refresh">
+            <IconButton size='larger' color='inherit'sx={{ ml: 20 }}><RefreshOutlinedIcon /></IconButton>
+            </Tooltip>
+            <Tooltip title="View">
+            <IconButton size='larger' color='inherit'><GridViewOutlinedIcon /></IconButton>
+            </Tooltip>
+            <Tooltip title="Settings">
+            <IconButton size='larger' color='inherit'><SettingsOutlinedIcon /></IconButton>
+            </Tooltip>
+            <Tooltip title="Apps">
+            <IconButton size='larger' color='inherit' sx={{ ml: 5 }}><AppsOutlinedIcon /></IconButton>
+            </Tooltip>
+            <Tooltip title="Profile">
+            <IconButton size='larger' color='inherit' onClick={(e) => setAnchorEl(e.currentTarget)}>
               <AccountCircle />
             </IconButton>
+            </Tooltip>
           </Box>
 
           {/* MOBILE MENU ICON */}
@@ -135,17 +165,18 @@ export default function Header() {
         </Toolbar>
       </AppBar>
 
-      {/* DESKTOP PROFILE MENU */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-      >
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>My account</MenuItem>
-      </Menu>
+       <Toolbar>
+          <Tooltip title="Profile">
+            <IconButton
+              color="inherit"
+              onClick={handleProfileClick}
+            >
+              <AccountCircle />
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+      <Poper anchorEl={anchorEl} onClose={handleClose} />
 
-      {/* MOBILE MENU */}
       <Menu
         anchorEl={mobileMoreAnchorEl}
         open={isMobileMenuOpen}

@@ -1,4 +1,4 @@
-import React,{use, useState} from 'react'
+import React,{useEffect, useState,} from 'react'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
@@ -12,9 +12,14 @@ import TextField from '@mui/material/TextField';
 import signupImage from '../../assets/signup.jpeg'
 import './signup.css'
 import Home from '../../DashBoard/Home.jsx';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate,Link, useLocation } from 'react-router-dom';
+
 
 function Signup() {
+  const location=useLocation();
+  useEffect(() => {
+    console.log(location);
+  },[])
   const navigate=useNavigate();
 const [formData, setFormData] = useState({
   firstName: '',
@@ -43,14 +48,14 @@ const handleSubmit = (e) => {
     newErrors.lastName = 'Enter a valid last name'
   }
   if (!formData.email.endsWith('@gmail.com')) {
-    newErrors.email = 'Email must end with @gmail.com'
+    newErrors.email = 'Email must end with @gmail.com *'
   }
   if (formData.password.length < 8) {
     newErrors.password = 'Password must be at least 8 characters'
   }
 
   if (formData.password !== formData.confirmPassword) {
-    newErrors.confirmPassword = 'Passwords do not match'
+    newErrors.confirmPassword = 'Passwords do not match *'
   }
 
   if (Object.keys(newErrors).length > 0) {
@@ -151,7 +156,7 @@ const handleSubmit = (e) => {
             </CardContent>
 
           <CardActions>
-            <Button size="small" sx={{paddingLeft: 2}} component={Link} to="/signin">Sign in Instead</Button>
+            <Button size="small" sx={{paddingLeft: 2}} component={Link} to="/signin">Sign in INSTEAD</Button>
             <div className='but'>
           <Button
   size="large"
