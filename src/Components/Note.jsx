@@ -67,6 +67,22 @@ function Note() {
     }
   }
 
+    const handelonclickDelete = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/Notes/${id}`, {
+        "method": "PATCH",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ Trash: true }),
+      })
+      setsaved(prev => prev.filter(note => note.id !== id));
+
+      console.log('Archived note ID:', id);
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <Box
@@ -98,8 +114,9 @@ function Note() {
       </Box>
       {console.log(saved)};
       {click ?
-        <AddNote saved={saved} setsaved={setsaved} handleclick={handelonclick} /> :
-        <ListNote saved={saved} setsaved={setsaved} />
+        <AddNote saved={saved} setsaved={setsaved} handleclick={handelonclick} handelonclickDelete={handelonclickDelete}/> :
+        <ListNote saved={saved} setsaved={setsaved}  handleclick={handelonclick} handelonclickDelete={handelonclickDelete}
+        />
       }
     </>
   )

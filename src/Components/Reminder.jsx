@@ -3,7 +3,7 @@ import Note from './Note.jsx'
 function Reminder() {
   return (
     <>
-    <Note />
+    {/* <Note /> */}
     </>
   )
 }

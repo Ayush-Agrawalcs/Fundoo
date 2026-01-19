@@ -1,46 +1,40 @@
 {
   "Employee": [
     {
-      "id": "dac0",
-      "firstName": "Ayuhs",
+      "id": "74f0",
+      "firstName": "Ayush",
       "lastName": "Agrawal",
       "email": "ayush.agrawal_cs.aiml22@gmail.com",
-      "password": "Ayush12345",
-      "service": "advance"
-    },
-    {
-      "id": "9433",
-      "firstName": "Ayush",
-      "lastName": "Agrawal",
-      "email": "ayush.agrawal22@gmail.com",
-      "password": "Ayush12345",
-      "service": "advance"
-    },
-    {
-      "id": "a252",
-      "firstName": "Ayush",
-      "lastName": "Agrawal",
-      "email": "ayush.agrawal@gmail.com",
       "password": "123456789",
       "service": "advance"
     },
     {
-      "id": "c55a",
+      "id": "7e99",
       "firstName": "Ayush",
       "lastName": "Agrawal",
-      "email": "ayush@gmail.com",
-      "password": "1234567890",
+      "email": "hello@gmail.com",
+      "password": "123456789",
       "service": "advance"
     }
   ],
   "Notes": [
     {
-      "id": "6551",
-      "title": "fcghj",
-      "description": "dfghjk",
+      "id": "d5cc",
+      "title": "Hello",
+      "description": "Ayush\nAman\nAnkur",
+      "bgcolor": "#33FF57",
+      "userId": "7e99",
+      "archieve": false,
+      "Trash": false
+    },
+    {
+      "id": "05b8",
+      "title": "Hemant",
+      "description": "",
       "bgcolor": "#ffffff",
-      "userId": "dac0",
-      "archieve": false
+      "userId": "74f0",
+      "archieve": false,
+      "Trash": false
     }
   ]
 }

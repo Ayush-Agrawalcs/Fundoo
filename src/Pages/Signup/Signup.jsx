@@ -13,7 +13,7 @@ import signupImage from '../../assets/signup.jpeg'
 import './signup.css'
 import Home from '../../DashBoard/Home.jsx';
 import { useNavigate,Link, useLocation } from 'react-router-dom';
-// import SignupUser from '../../Routing/AuthRouting.jsx'
+import api from '../../Services/axiosservice.js'
 
 
 function Signup() {
@@ -62,54 +62,30 @@ const handleSubmit = async (e) => {
     setErrors(newErrors)
     return;
   } 
-const payload={
-  firstName:formData.firstName,
-  lastName:formData.lastName,
-  email:formData.email,
-  password:formData.password,
-  service:"advance"
-}
-console.log(payload);
-
-// try{
-//   await SignupUser(payload);
-//   navigate('/sigin');
-// }
-// catch{
-// alert("signup failed");
-// }
 try {
-  // 1. Get existing users
-  const res = await fetch('http://localhost:3000/Employee');
-  const users = await res.json();
+  const email = formData.email.trim().toLowerCase();
 
-  // 2. Check if email already exists
-  const userExists = users.find(
-    u => u.email === formData.email
-  );
+  const userExists = await api.get(`/Employee?email=${email}`);
 
-  if (userExists) {
+  if (userExists.data.length > 0) {
     alert("User already exists!");
-    return; 
+    return;
   }
 
-  // 3. Create new user
-  const postRes = await fetch('http://localhost:3000/Employee', {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+  await api.post("/Employee", {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email,
+    password: formData.password,
+    service: "advance"
   });
 
-  if (!postRes.ok) {
-    throw new Error("Failed to create user");
-  }
-
-  // 4. Navigate after success
-  navigate('/signin');
-
+  navigate("/signin");
 } catch (error) {
   console.log("Signup error:", error);
 }
+
+
 
 }
 

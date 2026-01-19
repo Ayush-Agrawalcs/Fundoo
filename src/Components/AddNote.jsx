@@ -12,9 +12,10 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import {useDrawer} from './DrawerContext'
 
-function AddNote({ saved, setsaved,handleclick }) {
+function AddNote({ saved, setsaved,handleclick,handelonclickDelete }) {
     const {open}=useDrawer();
   const colors = [
     "#fff", "#faafa8", "#f39f76", "#fff8b8", "#e2f6d3",
@@ -25,20 +26,48 @@ function AddNote({ saved, setsaved,handleclick }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const h=open?70:50
 
-  const updateNote = (index, field, value) => {
+  const updateNote = async(index, field, value) => {
     setsaved(prev =>
       prev.map((note, i) =>
         i === index ? { ...note, [field]: value } : note
       )
-    );
+    )
+    const n=saved[index];
+    if(!n)
+      return;
+    try{
+      await fetch(`http://localhost:3000/Notes/${n.id}`,{
+        "method":"PATCH",
+         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({[field]:value}),
+      })
+      console.log(saved)
+    }
+    catch(error){
+      console.log(error);
+    }
   };
 
-  const updateColor = (index, color) => {
+  const updateColor =async (index, color) => {
     setsaved(prev =>
       prev.map((note, i) =>
         i === index ? { ...note, bgcolor: color } : note
       )
     );
+       const n=saved[index];
+    if(!n)
+      return;
+    try{
+      await fetch(`http://localhost:3000/Notes/${n.id}`,{
+        "method":"PATCH",
+         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({bgcolor:color}),
+      })
+      console.log(saved)
+    }
+    catch(error){
+      console.log(error);
+    }
   };
 
   const handleColorOpen = (event, index) => {
@@ -133,6 +162,9 @@ function AddNote({ saved, setsaved,handleclick }) {
 
               <Tooltip title="Archive">
                 <ArchiveOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} onClick={()=>handleclick(note.id)} />
+              </Tooltip>
+              <Tooltip title="Delete">
+               <DeleteOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} onClick={()=>handelonclickDelete(note.id)}/>
               </Tooltip>
 
               <Tooltip title="More options">

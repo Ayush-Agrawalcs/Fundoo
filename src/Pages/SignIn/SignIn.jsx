@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import  {useNavigate,Link} from 'react-router-dom';
 import './signIn.css'
+import api from '../../Services/axiosservice';
 
 function SignIn() {
   const navigate=useNavigate()
@@ -26,35 +27,38 @@ const handlesubmit = async (e) => {
   e.preventDefault();
   let newError = {};
 
-  if (!formdata.email.endsWith('@gmail.com')) {
-    newError.email = 'email must end with @gmail.com (for example:xyz@gmail.com) *';
-  } 
+  const email = formdata.email.trim();
+  const password = formdata.password.trim();
 
-  if (formdata.password.length < 8) {
-    newError.password = 'password must be at least 8 characters *';
-  } 
+  if (!email.endsWith('@gmail.com')) {
+    newError.email = 'Email must end with @gmail.com';
+  }
+
+  if (password.length < 8) {
+    newError.password = 'Password must be at least 8 characters';
+  }
 
   if (Object.keys(newError).length > 0) {
     setErrors(newError);
-  } 
+    return; // ⛔ IMPORTANT
+  }
 
-  try{
-    await fetch('http://localhost:3000/Employee').then((res)=>res.json()).then((users)=>{
-      const user = users.find(
-      u => u.email ===formdata.email&& u.password ===formdata.password
-    )
-    if (user) {
-       localStorage.setItem('user',JSON.stringify(user))
-      navigate('/');
+  try {
+    const res = await api.get(
+      `/Employee?email=${email}&password=${password}`
+    );
+
+    if (res.data.length === 1) {
+      localStorage.setItem("user", JSON.stringify(res.data[0]));
+      navigate("/");
     } else {
-      alert("Invalid credentials");
+      alert("Invalid Credentials");
     }
-    })
-    }
-  catch(error){
+  } catch (error) {
     console.log(error);
   }
 };
+
 
   return (
     <div className='dt'>
