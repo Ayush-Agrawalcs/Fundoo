@@ -9,7 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { Avatar } from '@mui/material';
+import { Avatar, circularProgressClasses } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
@@ -89,6 +89,9 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+
+    const p=JSON.parse(localStorage.getItem('user'));
+  const a=p.firstName.charAt(0).toUpperCase();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -153,7 +156,7 @@ export default function Header() {
             <Tooltip title="Profile">
             <IconButton size='larger' color='inherit' onClick={(e) => setAnchorEl(e.currentTarget)}>
               <Avatar sx={{bgcolor:"orange"}}>
-                A
+                {a}
               </Avatar>
             </IconButton>
             </Tooltip>

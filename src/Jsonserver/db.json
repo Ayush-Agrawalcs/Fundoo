@@ -15,6 +15,14 @@
       "email": "hello@gmail.com",
       "password": "123456789",
       "service": "advance"
+    },
+    {
+      "id": "958d",
+      "firstName": "shivam",
+      "lastName": "Agrawal",
+      "email": "shival@gmail.com",
+      "password": "123456789",
+      "service": "advance"
     }
   ],
   "Notes": [
@@ -30,8 +38,8 @@
     {
       "id": "05b8",
       "title": "Hemant",
-      "description": "",
-      "bgcolor": "#ffffff",
+      "description": "Aman",
+      "bgcolor": "#b4ddd3",
       "userId": "74f0",
       "archieve": false,
       "Trash": false

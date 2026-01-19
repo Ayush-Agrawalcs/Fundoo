@@ -17,6 +17,10 @@ function Poper({ anchorEl, onClose }) {
   const open = Boolean(anchorEl);
   const navigate=useNavigate();
 
+  const p=JSON.parse(localStorage.getItem('user'));
+  console.log(p);
+  const a=p.firstName.charAt(0).toUpperCase();
+
   const googlePopupButtonStyle = {
   height: 52,
   bgcolor:"white",                    
@@ -80,15 +84,15 @@ const handelclick=()=>{
                 fontSize: 32,
               }}
             >
-              A
+              {a}
             </Avatar>
           </Box>
 
           <Typography align="center" variant="h6">
-            Hi, Ayush!
+            Hi,{p.firstName}!
           </Typography>
           <Typography align="center" variant="body2" color="text.secondary">
-            agrawal06ayush@gmail.com
+           {p.email}
           </Typography>
 
           <Divider sx={{ my: 2 }} />
