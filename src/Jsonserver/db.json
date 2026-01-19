@@ -1,0 +1,46 @@
+{
+  "Employee": [
+    {
+      "id": "dac0",
+      "firstName": "Ayuhs",
+      "lastName": "Agrawal",
+      "email": "ayush.agrawal_cs.aiml22@gmail.com",
+      "password": "Ayush12345",
+      "service": "advance"
+    },
+    {
+      "id": "9433",
+      "firstName": "Ayush",
+      "lastName": "Agrawal",
+      "email": "ayush.agrawal22@gmail.com",
+      "password": "Ayush12345",
+      "service": "advance"
+    },
+    {
+      "id": "a252",
+      "firstName": "Ayush",
+      "lastName": "Agrawal",
+      "email": "ayush.agrawal@gmail.com",
+      "password": "123456789",
+      "service": "advance"
+    },
+    {
+      "id": "c55a",
+      "firstName": "Ayush",
+      "lastName": "Agrawal",
+      "email": "ayush@gmail.com",
+      "password": "1234567890",
+      "service": "advance"
+    }
+  ],
+  "Notes": [
+    {
+      "id": "6551",
+      "title": "fcghj",
+      "description": "dfghjk",
+      "bgcolor": "#ffffff",
+      "userId": "dac0",
+      "archieve": false
+    }
+  ]
+}

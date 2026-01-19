@@ -7,12 +7,15 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import AddIcon from '@mui/icons-material/Add';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Poper({ anchorEl, onClose }) {
   const open = Boolean(anchorEl);
-
+  const navigate=useNavigate();
 
   const googlePopupButtonStyle = {
   height: 52,
@@ -21,6 +24,7 @@ function Poper({ anchorEl, onClose }) {
   textTransform: "none",
   fontWeight: 500,
   borderColor: "#dadce0",
+  cursor:"pointer",
   color: "#3c4043",
   "&:hover": {
     backgroundColor: "#f1f3f4",
@@ -33,6 +37,7 @@ function Poper({ anchorEl, onClose }) {
   borderRadius: "16px 999px 999px 16px", 
   textTransform: "none",
   fontWeight: 500,
+   cursor:"pointer",
   borderColor: "#dadce0",
   color: "#3c4043",
   "&:hover": {
@@ -40,6 +45,10 @@ function Poper({ anchorEl, onClose }) {
     borderColor: "#dadce0",
   },
 };
+const handelclick=()=>{
+  localStorage.removeItem('user')
+  navigate('/signin');
+}
 
   return (
     <Popper
@@ -47,6 +56,7 @@ function Poper({ anchorEl, onClose }) {
       anchorEl={anchorEl}
       placement="bottom-end"
       disablePortal
+      sx={{ zIndex: 1300 }}
     >
       <ClickAwayListener onClickAway={onClose}>
         <Card
@@ -83,10 +93,12 @@ function Poper({ anchorEl, onClose }) {
 
           <Divider sx={{ my: 2 }} />
           <div style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
-          <Button fullWidth variant="outlined" sx={googlePopupButtonStyle}>
+          <Button fullWidth variant="outlined" sx={googlePopupButtonStyle} onClick={handelclick}>
+            <AddIcon/>
             Add account
           </Button>
-          <Button fullWidth variant="outlined" sx={googlePopupButtonStyle2}>
+          <Button fullWidth variant="outlined" sx={googlePopupButtonStyle2} onClick={handelclick}>
+            <LogoutIcon/>
             Sign out
           </Button>
           </div>

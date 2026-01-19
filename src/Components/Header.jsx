@@ -9,6 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { Avatar } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
@@ -25,6 +26,7 @@ import Poper from './Poper';
 
 import { useDrawer } from './DrawerContext';
 import { useLocation } from 'react-router-dom';
+import ViewStreamOutlinedIcon from '@mui/icons-material/ViewStreamOutlined';
 
 /* ===== Styled Components ===== */
 const Search = styled('div')(({ theme }) => ({
@@ -68,13 +70,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Header() {
   const location=useLocation();
-  const title=location.pathname==='/' ? 'Notes' : location.pathname.slice(1).charAt(0).toUpperCase() + location.pathname.slice(2) 
-  const { toggleDrawer } = useDrawer()
+  const title=location.pathname==='/' ? 'Fundoo' : location.pathname.slice(1).charAt(0).toUpperCase() + location.pathname.slice(2) 
+  const { toggleDrawer,handlepattern,click } = useDrawer()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
    
    React.useEffect(()=>{
     console.log(location.pathname);
@@ -108,7 +109,7 @@ export default function Header() {
             width={40}
             height={40}
             alt="Keep"
-            style={{ display:title==='Notes'?'block':'none'}}
+            style={{ display:title==='Fundoo'?'block':'none'}}
 
           />
 
@@ -138,20 +139,22 @@ export default function Header() {
           {/* DESKTOP ICONS */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Tooltip title="Refresh">
-            <IconButton size='larger' color='inherit'sx={{ ml: 20 }}><RefreshOutlinedIcon /></IconButton>
+            <IconButton size='larger' color='inherit'sx={{ ml: 22 ,opacity:0.5}}><RefreshOutlinedIcon /></IconButton>
             </Tooltip>
             <Tooltip title="View">
-            <IconButton size='larger' color='inherit'><GridViewOutlinedIcon /></IconButton>
+            <IconButton size='larger' color='inherit' sx={{opacity:0.5}} onClick={handlepattern}>{click?<GridViewOutlinedIcon />:<ViewStreamOutlinedIcon/>}</IconButton>
             </Tooltip>
             <Tooltip title="Settings">
-            <IconButton size='larger' color='inherit'><SettingsOutlinedIcon /></IconButton>
+            <IconButton size='larger' color='inherit' sx={{opacity:0.5}}><SettingsOutlinedIcon /></IconButton>
             </Tooltip>
             <Tooltip title="Apps">
-            <IconButton size='larger' color='inherit' sx={{ ml: 5 }}><AppsOutlinedIcon /></IconButton>
+            <IconButton size='larger' color='inherit' sx={{ ml: 5, opacity:0.5 }}><AppsOutlinedIcon /></IconButton>
             </Tooltip>
             <Tooltip title="Profile">
             <IconButton size='larger' color='inherit' onClick={(e) => setAnchorEl(e.currentTarget)}>
-              <AccountCircle />
+              <Avatar sx={{bgcolor:"orange"}}>
+                A
+              </Avatar>
             </IconButton>
             </Tooltip>
           </Box>

@@ -14,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { useState } from 'react';
 import { useDrawer } from './DrawerContext'
 import { useNavigate } from 'react-router-dom';
-import {useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 const menuItems = [
@@ -27,17 +27,13 @@ const menuItems = [
 
 
 export default function Sidebar() {
-    const { open } = useDrawer();
-    let drawerWidth = open?270:72,borderRadius='50px';
-    const navigate=useNavigate();
-    const handleclick=(text)=>{
-      navigate(text==='Notes'?'/' : `/${text.toLowerCase()}`);
-    }
-    const  handlecolorclick=(index)=>{
-      if(index===0){
-        return '#feefc3';
-      }
-    }
+  const location = useLocation();
+  const { open } = useDrawer();
+  let drawerWidth = open ? 270 : 72, borderRadius = '50px';
+  const navigate = useNavigate();
+  const handleclick = (text) => {
+    navigate(text === 'Notes' ? '/' : `/${text.toLowerCase()}`);
+  }
 
   return (
     <>
@@ -57,25 +53,49 @@ export default function Sidebar() {
         <Box sx={{ overflow: 'auto' }}>
           <List>
             {menuItems.map((item, index) => {
-              const isActive=location.pathname===`/${item.text.toLowerCase()}` || (item.text==='Notes' && location.pathname==='/')
-             return( <ListItem
+              const isActive = location.pathname === `/${item.text.toLowerCase()}` || (item.text === 'Notes' && location.pathname === '/')
+              return (<ListItem
                 key={item.text}
                 disablePadding
                 sx={{
                   backgroundColor: isActive ? '#feefc3' : 'transparent',
                   borderTopRightRadius: '50px',
                   borderBottomRightRadius: '50px',
+                  position: 'relative'
                 }}
-                onClick={() => handlecolorclick(item.text)}
               >
-                <ListItemButton onClick={() => handleclick(item.text)}>
-                  <ListItemIcon sx={{ minWidth: 48 }}> {/* Better spacing for icons */}
-                    <item.icon />
+                <ListItemButton
+                  onClick={() => handleclick(item.text)}
+                  sx={{
+                    borderTopRightRadius: '50px',
+                    borderBottomRightRadius: '50px',
+                  }}
+                >
+                  <ListItemIcon sx={{ minWidth: 48 }}>
+                     <Box
+                      sx={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: isActive ? '#feefc3' : 'transparent',
+                        transition: 'background-color 0.2s ease',
+                      }}
+                    >
+                      <item.icon />
+                    </Box>
                   </ListItemIcon>
-                  <ListItemText primary={item.text} sx={{display:open?'block':'none'}}  />
+                  <ListItemText
+                    primary={item.text}
+                    sx={{ display: open ? 'block' : 'none' }}
+                  />
                 </ListItemButton>
               </ListItem>
-            )})}
+
+              )
+            })}
           </List>
         </Box>
       </Drawer>

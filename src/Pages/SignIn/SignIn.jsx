@@ -22,36 +22,37 @@ function SignIn() {
       [e.target.name]: e.target.value
     })
   }
-const handlesubmit = (e) => {
+const handlesubmit = async (e) => {
   e.preventDefault();
   let newError = {};
-
-  const userData = JSON.parse(localStorage.getItem('userData'));
-
-  if (!userData) {
-    setErrors({ general: "User not found. Please sign up." });
-    return;
-  }
 
   if (!formdata.email.endsWith('@gmail.com')) {
     newError.email = 'email must end with @gmail.com (for example:xyz@gmail.com) *';
   } 
-  else if (formdata.email !== userData.email) {
-    newError.email = 'email does not match *';
-  }
 
   if (formdata.password.length < 8) {
     newError.password = 'password must be at least 8 characters *';
   } 
-  else if (formdata.password !== userData.password) {
-    newError.password = 'incorrect password *';
-  }
 
   if (Object.keys(newError).length > 0) {
     setErrors(newError);
-  } else {
-    setErrors({});
-    navigate('/');
+  } 
+
+  try{
+    await fetch('http://localhost:3000/Employee').then((res)=>res.json()).then((users)=>{
+      const user = users.find(
+      u => u.email ===formdata.email&& u.password ===formdata.password
+    )
+    if (user) {
+       localStorage.setItem('user',JSON.stringify(user))
+      navigate('/');
+    } else {
+      alert("Invalid credentials");
+    }
+    })
+    }
+  catch(error){
+    console.log(error);
   }
 };
 

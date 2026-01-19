@@ -13,6 +13,7 @@ import signupImage from '../../assets/signup.jpeg'
 import './signup.css'
 import Home from '../../DashBoard/Home.jsx';
 import { useNavigate,Link, useLocation } from 'react-router-dom';
+// import SignupUser from '../../Routing/AuthRouting.jsx'
 
 
 function Signup() {
@@ -37,9 +38,8 @@ const handleChange = (e) => {
   })
 }
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
-  localStorage.setItem('userData', JSON.stringify(formData));
   let newErrors = {}
   if (!formData.firstName.match(/^[A-Za-z]{2,}$/)) {
     newErrors.firstName = 'Enter a valid first name'
@@ -60,10 +60,57 @@ const handleSubmit = (e) => {
 
   if (Object.keys(newErrors).length > 0) {
     setErrors(newErrors)
-  } else {
-    setErrors({});
-    navigate('/');
+    return;
+  } 
+const payload={
+  firstName:formData.firstName,
+  lastName:formData.lastName,
+  email:formData.email,
+  password:formData.password,
+  service:"advance"
+}
+console.log(payload);
+
+// try{
+//   await SignupUser(payload);
+//   navigate('/sigin');
+// }
+// catch{
+// alert("signup failed");
+// }
+try {
+  // 1. Get existing users
+  const res = await fetch('http://localhost:3000/Employee');
+  const users = await res.json();
+
+  // 2. Check if email already exists
+  const userExists = users.find(
+    u => u.email === formData.email
+  );
+
+  if (userExists) {
+    alert("User already exists!");
+    return; 
   }
+
+  // 3. Create new user
+  const postRes = await fetch('http://localhost:3000/Employee', {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (!postRes.ok) {
+    throw new Error("Failed to create user");
+  }
+
+  // 4. Navigate after success
+  navigate('/signin');
+
+} catch (error) {
+  console.log("Signup error:", error);
+}
+
 }
 
   return (
@@ -106,7 +153,7 @@ const handleSubmit = (e) => {
       </div>
       </Box>
       <Box
-      sx={{ '& .MuiTextField-root': { m: 1, width: { xs: '100%', sm: '52ch' } }}}
+      sx={{ '& .MuiTextField-root': {width: { xs: '100%', sm: '52ch' } }}}
       noValidate
       autoComplete="off"
       >
@@ -125,7 +172,7 @@ const handleSubmit = (e) => {
       </div>
       </Box>
       <Box
-      sx={{ '& .MuiTextField-root': { m: 1, width: { xs: '100%', sm: '25ch' } } }}
+      sx={{ '& .MuiTextField-root': { width: { xs: '100%', sm: '25ch' } } }}
       noValidate
       autoComplete="off"
     >
@@ -138,6 +185,7 @@ const handleSubmit = (e) => {
   onChange={handleChange}
   error={errors.password}
   helperText={errors.password}
+  sx={{mr:2}}
         />
         <TextField
         label="Confirm password"
@@ -185,8 +233,8 @@ const handleSubmit = (e) => {
           image={signupImage}
           alt="Signup"
         />
-         <Typography variant="body2" color="text.secondary" sx={{ color:'black', fontSize:'15px', paddingRight: 6 }}>
-            One account .All of Fundoo working for you
+         <Typography variant="body2" color="text.secondary" sx={{ color:'black', fontSize:'15px', pl: 5, textAlign:"center" }}>
+            One account .All of Fundoo <br />working for you
             </Typography>
         </MuiBox>
       </Card>
