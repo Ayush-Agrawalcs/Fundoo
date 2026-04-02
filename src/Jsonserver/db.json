@@ -1,48 +1,41 @@
 {
   "Employee": [
     {
-      "id": "74f0",
       "firstName": "Ayush",
       "lastName": "Agrawal",
-      "email": "ayush.agrawal_cs.aiml22@gmail.com",
-      "password": "123456789",
-      "service": "advance"
+      "email": "ab@gmail.com",
+      "password": "12345678",
+      "service": "advance",
+      "id": "jpXXeUSrPj0"
     },
     {
-      "id": "7e99",
-      "firstName": "Ayush",
-      "lastName": "Agrawal",
-      "email": "hello@gmail.com",
+      "firstName": "Ank",
+      "lastName": "bcd",
+      "email": "bc@gmail.com",
       "password": "123456789",
-      "service": "advance"
-    },
-    {
-      "id": "958d",
-      "firstName": "shivam",
-      "lastName": "Agrawal",
-      "email": "shival@gmail.com",
-      "password": "123456789",
-      "service": "advance"
+      "service": "advance",
+      "id": "E_vOQf7OJpw"
     }
   ],
   "Notes": [
     {
-      "id": "d5cc",
       "title": "Hello",
-      "description": "Ayush\nAman\nAnkur",
-      "bgcolor": "#33FF57",
-      "userId": "7e99",
+      "description": "Aman,Ankur",
+      "bgcolor": "#f39f76",
+      "userId": "jpXXeUSrPj0",
       "archieve": false,
-      "Trash": false
+      "Trash": false,
+      "id": "hGqaNK-9CZs"
     },
     {
-      "id": "05b8",
-      "title": "Hemant",
-      "description": "Aman",
-      "bgcolor": "#b4ddd3",
-      "userId": "74f0",
+      "title": "huijok",
+      "description": "jhkl",
+      "bgcolor": "#ff8f33",
+      "userId": "E_vOQf7OJpw",
       "archieve": false,
-      "Trash": false
+      "Trash": false,
+      "id": "jNq0Y5wgJW4"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

@@ -1,7 +1,12 @@
-import api from '../Services/axiosservice'
+import React from 'react'
+import { Navigate } from 'react-router-dom'
 
-const SignupUser=()=>{
-    return api.post("/userSignUp")
+function AuthRouting({children}) {
+    const store=JSON.parse(localStorage.getItem('user'));
+    if(store==null){
+        return children
+    }
+  return <Navigate to="/"/>
 }
 
-export default SignupUser;
+export default AuthRouting

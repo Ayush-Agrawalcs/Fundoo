@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import  {useNavigate,Link} from 'react-router-dom';
 import './signIn.css'
-import api from '../../Services/axiosservice';
+import { signin } from '../../Services/axiosservice';
 
 function SignIn() {
   const navigate=useNavigate()
@@ -44,16 +44,20 @@ const handlesubmit = async (e) => {
   }
 
   try {
-    const res = await api.get(
-      `/Employee?email=${email}&password=${password}`
-    );
+    // const res = await api.get(
+    //   `/Employee?email=${email}&password=${password}`
+    // );
 
-    if (res.data.length === 1) {
-      localStorage.setItem("user", JSON.stringify(res.data[0]));
-      navigate("/");
-    } else {
-      alert("Invalid Credentials");
-    }
+    // if (res.data.length === 1) {
+    //   localStorage.setItem("user", JSON.stringify(res.data[0]));
+    //   navigate("/");
+    // } else {
+    //   alert("Invalid Credentials");
+    // }
+    
+    await signin(email,password);
+    navigate('/');
+
   } catch (error) {
     console.log(error);
   }

@@ -8,17 +8,19 @@ import Trash from './Components/Trash.jsx'
 import Archive from './Components/Archive.jsx'
 import Edit from './Components/Edit.jsx'
 import Reminder from './Components/Reminder.jsx'
+import AuthRouting from './Routing/AuthRouting.jsx'
+import ProtectedRouting from './Routing/ProtectedRouting.jsx'
 
 
 function ReactRouting() {
   return (
     <Routes>
 
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<AuthRouting><Signup /></AuthRouting>} />
+      <Route path="/signin" element={<AuthRouting><SignIn /></AuthRouting>} />
 
 
-      <Route path="/" element={<Home />}>
+      <Route path="/" element={<ProtectedRouting><Home /></ProtectedRouting>}>
         <Route index element={<Note />} />
         <Route path="trash" element={<Trash />} />
         <Route path="archive" element={<Archive />} />

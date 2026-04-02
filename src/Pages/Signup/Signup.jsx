@@ -13,7 +13,7 @@ import signupImage from '../../assets/signup.jpeg'
 import './signup.css'
 import Home from '../../DashBoard/Home.jsx';
 import { useNavigate,Link, useLocation } from 'react-router-dom';
-import api from '../../Services/axiosservice.js'
+import {signup} from '../../Services/axiosservice.js'
 
 
 function Signup() {
@@ -63,24 +63,32 @@ const handleSubmit = async (e) => {
     return;
   } 
 try {
-  const email = formData.email.trim().toLowerCase();
+  // const email = formData.email.trim().toLowerCase();
 
-  const userExists = await api.get(`/Employee?email=${email}`);
+  // const userExists = await api.get(`/Employee?email=${email}`);
 
-  if (userExists.data.length > 0) {
-    alert("User already exists!");
-    return;
-  }
+  // if (userExists.data.length > 0) {
+  //   alert("User already exists!");
+  //   return;
+  // }
 
-  await api.post("/Employee", {
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-    email,
-    password: formData.password,
-    service: "advance"
-  });
+  // await api.post("/Employee", {
+  //   firstName: formData.firstName,
+  //   lastName: formData.lastName,
+  //   email,
+  //   password: formData.password,
+  //   service: "advance"
+  // });
 
-  navigate("/signin");
+  // navigate("/signin");
+  await signup({ firstName: formData.firstName,
+     lastName: formData.lastName,
+     email:formData.email,
+     password: formData.password,
+     service: "advance"});
+
+     navigate("/signin");
+
 } catch (error) {
   console.log("Signup error:", error);
 }

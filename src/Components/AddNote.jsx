@@ -13,10 +13,11 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import {useDrawer} from './DrawerContext'
+import { useDrawer } from './DrawerContext'
+import { update } from '../Services/axiosNote';
 
-function AddNote({ saved, setsaved,handleclick,handelonclickDelete }) {
-    const {open}=useDrawer();
+function AddNote({ saved, setsaved, handleclick, handelonclickDelete }) {
+  const { open } = useDrawer();
   const colors = [
     "#fff", "#faafa8", "#f39f76", "#fff8b8", "#e2f6d3",
     "#b4ddd3", "#d4e4ed", "#aeccdc", "#d3bfdb", "#e9e3d4", "#efeff1"
@@ -24,51 +25,42 @@ function AddNote({ saved, setsaved,handleclick,handelonclickDelete }) {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
-  const h=open?70:50
+  const h = open ? 70 : 50
 
-  const updateNote = async(index, field, value) => {
+  const updateNote = async (index, field, value) => {
     setsaved(prev =>
       prev.map((note, i) =>
         i === index ? { ...note, [field]: value } : note
       )
     )
-    const n=saved[index];
-    if(!n)
+    const n = saved[index];
+    if (!n)
       return;
-    try{
-      await fetch(`http://localhost:3000/Notes/${n.id}`,{
-        "method":"PATCH",
-         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({[field]:value}),
-      })
-      console.log(saved)
+    try {
+      await update(n,{ [field]: value })
     }
-    catch(error){
+    catch (error) {
       console.log(error);
     }
   };
 
-  const updateColor =async (index, color) => {
-    setsaved(prev =>
-      prev.map((note, i) =>
-        i === index ? { ...note, bgcolor: color } : note
-      )
-    );
-       const n=saved[index];
-    if(!n)
-      return;
-    try{
-      await fetch(`http://localhost:3000/Notes/${n.id}`,{
-        "method":"PATCH",
-         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({bgcolor:color}),
-      })
-      console.log(saved)
-    }
-    catch(error){
-      console.log(error);
-    }
-  };
+ const updateColor = async (id, color) => {
+  setsaved(prev =>
+    prev.map((note,i) =>
+      i === id ? { ...note, bgcolor: color } : note
+    )
+  );
+     const n=saved[id];
+      if(!n)
+        return;
+      try{
+        await update(n,{bgcolor: color})
+      }
+      catch(error){
+        console.log(error);
+      }
+};
+
 
   const handleColorOpen = (event, index) => {
     setAnchorEl(event.currentTarget);
@@ -84,11 +76,23 @@ function AddNote({ saved, setsaved,handleclick,handelonclickDelete }) {
   return (
     <>
       {saved.map((note, index) => (
+              <Box
+              sx={{
+                display: 'flex',
+                mt: 2,
+                position: 'relative',
+
+                '&:hover .hoverContent': {
+                  opacity: 1,
+                  visibility: 'visible',
+                },
+              }}
+            >
         <Paper
-          key={index}
+          key={note.id}
           elevation={3}
           sx={{
-            width:open?'43.5%':'37%',
+            width: open ? '43.5%' : '37%',
             mt: 5,
             ml: h,
             p: 2,
@@ -109,7 +113,7 @@ function AddNote({ saved, setsaved,handleclick,handelonclickDelete }) {
                   border: 'none',
                   outline: 'none',
                   fontSize: '1.2rem',
-                  resize:'none',
+                  resize: 'none',
                   backgroundColor: 'transparent',
                   fontWeight: 600,
                 }}
@@ -129,50 +133,68 @@ function AddNote({ saved, setsaved,handleclick,handelonclickDelete }) {
                 border: 'none',
                 outline: 'none',
                 fontSize: '1rem',
-                 resize:'none',
+                resize: 'none',
                 backgroundColor: 'transparent',
                 marginTop: 16,
               }}
             />
 
             {/* ICON BAR */}
-            <Box sx={{ display: 'flex', mt: 2 }}>
-              <Tooltip title="Formatting options">
-                <FormatColorTextOutlinedIcon sx={{ opacity: 0.5 }} />
-              </Tooltip>
+      
+              <Box
+                className="hoverContent"
+                sx={{
+                  display: 'flex',
+                  mt: 2,
+                  opacity: 0,
+                  visibility: 'hidden',
+                  transition: 'opacity 0.2s ease',
+                }}
+              >
+                <Tooltip title="Formatting options">
+                  <FormatColorTextOutlinedIcon sx={{ opacity: 0.5 }} />
+                </Tooltip>
 
-              <Tooltip title="Change color">
-                <ColorLensOutlinedIcon
-                  sx={{ ml: 2, opacity: 0.5, cursor: 'pointer' }}
-                  onClick={(e) => handleColorOpen(e, index)}
-                />
-              </Tooltip>
+                <Tooltip title="Change color">
+                  <ColorLensOutlinedIcon
+                    sx={{ ml: 2, opacity: 0.5, cursor: 'pointer' }}
+                    onClick={(e) => handleColorOpen(e, index)}
+                  />
+                </Tooltip>
 
-              <Tooltip title="Remind me">
-                <AddAlertOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
-              </Tooltip>
+                <Tooltip title="Remind me">
+                  <AddAlertOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
+                </Tooltip>
 
-              <Tooltip title="Collaborator">
-                <PersonAddAlt1OutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
-              </Tooltip>
+                <Tooltip title="Collaborator">
+                  <PersonAddAlt1OutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
+                </Tooltip>
 
-              <Tooltip title="Add image">
-                <ImageOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
-              </Tooltip>
+                <Tooltip title="Add image">
+                  <ImageOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
+                </Tooltip>
 
-              <Tooltip title="Archive">
-                <ArchiveOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} onClick={()=>handleclick(note.id)} />
-              </Tooltip>
-              <Tooltip title="Delete">
-               <DeleteOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} onClick={()=>handelonclickDelete(note.id)}/>
-              </Tooltip>
+                <Tooltip title="Archive">
+                  <ArchiveOutlinedIcon
+                    sx={{ ml: 2, opacity: 0.5, cursor: 'pointer' }}
+                    onClick={() => handleclick(note.id)}
+                  />
+                </Tooltip>
 
-              <Tooltip title="More options">
-                <MoreVertOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
-              </Tooltip>
+                <Tooltip title="Delete">
+                  <DeleteOutlinedIcon
+                    sx={{ ml: 2, opacity: 0.5, cursor: 'pointer' }}
+                    onClick={() => handelonclickDelete(note.id)}
+                  />
+                </Tooltip>
+
+                <Tooltip title="More options">
+                  <MoreVertOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
+                </Tooltip>
+              </Box>
             </Box>
-          </Box>
         </Paper>
+         </Box>
       ))}
 
       {/* 🎨 COLOR PICKER POPPER */}

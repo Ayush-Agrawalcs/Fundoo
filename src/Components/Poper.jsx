@@ -18,8 +18,10 @@ function Poper({ anchorEl, onClose }) {
   const navigate=useNavigate();
 
   const p=JSON.parse(localStorage.getItem('user'));
-  console.log(p);
-  const a=p.firstName.charAt(0).toUpperCase();
+  if(p==null){
+    navigate('/signin')
+  }
+  const a=p?.firstName.charAt(0).toUpperCase();
 
   const googlePopupButtonStyle = {
   height: 52,
@@ -89,10 +91,10 @@ const handelclick=()=>{
           </Box>
 
           <Typography align="center" variant="h6">
-            Hi,{p.firstName}!
+            Hi,{p?.firstName}!
           </Typography>
           <Typography align="center" variant="body2" color="text.secondary">
-           {p.email}
+           {p?.email}
           </Typography>
 
           <Divider sx={{ my: 2 }} />

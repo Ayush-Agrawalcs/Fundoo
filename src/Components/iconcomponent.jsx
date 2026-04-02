@@ -12,6 +12,7 @@ import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import Popper from '@mui/material/Popper';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { addNote } from '../Services/axiosNote';
 
 import { useDrawer } from './DrawerContext';
 
@@ -64,12 +65,9 @@ function IconComponent({ setcolor, setExpanded, setsaved }) {
   Trash:false,
       }
 try{
-  const res=await fetch('http://localhost:3000/Notes',{
-   method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  })
-  const data=await res.json();
+const res=await addNote(payload)
+  const data=await res.data;
+  console.log(data)
    setsaved(prev => {
       if (!prev.some(n => n.id === data.id)) return [...prev, data];
       return prev;
@@ -183,7 +181,7 @@ catch(error){
 
       {/* 🎨 Color Picker */}
       <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
-        <ClickAwayListener onClickAway={handleClose}>
+        <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
           <Box
             sx={{
               display: 'flex',

@@ -10,6 +10,8 @@ import { useDrawer } from './DrawerContext'
 import AddNote from './AddNote';
 import ListNote from './ListNote';
 import { useNavigate } from 'react-router-dom';
+import ProtectedRouting from '../Routing/ProtectedRouting';
+import { getNotes } from '../Services/axiosNote';
 
 
 function Note() {
@@ -25,19 +27,21 @@ function Note() {
   // const drawert=open?
   const currentid = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
-    if (!currentid) {
-      navigate('/signin');
-      return;
-    }
     let valid = true;
     const fetchNotes = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/Notes?userId=${currentid.id}&archieve=false&Trash=false`);
-        const data = await res.json();
-        console.log("--",data);
+        // const res = await fetch(`http://localhost:3000/Notes?userId=${currentid.id}&archieve=false&Trash=false`);
+        // const data = await res.json();
+        
+        const res=await getNotes(currentid)
+        const data = await res.data;
+        console.log(data)
+
         if (valid) {
           setsaved(Array.isArray(data) ? data : []);
         }
+
+
       } catch (error) {
         console.log(error);
       }
@@ -48,7 +52,7 @@ function Note() {
     return () => {
       valid = false;
     };
-  }, [currentid.id, navigate]);
+  }, [currentid?.id, navigate]);
 
 
   const handelonclick = async (id) => {

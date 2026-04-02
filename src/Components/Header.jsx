@@ -27,16 +27,18 @@ import Poper from './Poper';
 import { useDrawer } from './DrawerContext';
 import { useLocation } from 'react-router-dom';
 import ViewStreamOutlinedIcon from '@mui/icons-material/ViewStreamOutlined';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 /* ===== Styled Components ===== */
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
- backgroundColor: alpha(theme.palette.grey[300], 0.6),
-'&:hover': {
-  backgroundColor: alpha(theme.palette.grey[400], 0.8),
-},
-marginLeft: theme.spacing(15),
+  backgroundColor: alpha(theme.palette.grey[300], 0.6),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.grey[400], 0.8),
+  },
+  marginLeft: theme.spacing(15),
   marginRight: theme.spacing(6),
   width: 100,
   [theme.breakpoints.up('sm')]: {
@@ -69,17 +71,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-  const location=useLocation();
-  const title=location.pathname==='/' ? 'Fundoo' : location.pathname.slice(1).charAt(0).toUpperCase() + location.pathname.slice(2) 
-  const { toggleDrawer,handlepattern,click } = useDrawer()
+  const location = useLocation();
+  const navigate = useNavigate();
+  const title = location.pathname === '/' ? 'Fundoo' : location.pathname.slice(1).charAt(0).toUpperCase() + location.pathname.slice(2)
+  const { toggleDrawer, handlepattern, click } = useDrawer()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-   
-   React.useEffect(()=>{
+
+  React.useEffect(() => {
     console.log(location.pathname);
-   },[location])
+  }, [location])
 
   const handleProfileClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -89,9 +92,13 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-
-    const p=JSON.parse(localStorage.getItem('user'));
-  const a=p.firstName.charAt(0).toUpperCase();
+    const p = JSON.parse(localStorage.getItem('user'));
+         const n = p && p.firstName.charAt(0).toUpperCase();
+          console.log(n)
+    if(!p) navigate('/signin')
+  const a =n
+  
+  // let p;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -106,32 +113,34 @@ export default function Header() {
           <IconButton edge="start" color="inherit" onClick={toggleDrawer} sx={{ mr: 5 }}>
             <MenuIcon />
           </IconButton>
+          <Box sx={{display:"flex", flexDirection:"row" , width:"150px"}}>
 
           <img
             src="https://www.gstatic.com/images/branding/product/2x/keep_2020q4_48dp.png"
-            width={40}
-            height={40}
+            width={35}
+            height={35}
             alt="Keep"
-            style={{ display:title==='Fundoo'?'block':'none'}}
+            style={{ display: title === 'Fundoo' ? 'block' : 'none' }}
 
           />
 
           <Typography
             variant="h6"
-            sx={{ display: { xs: 'none', sm: 'block' }, ml: 1 ,mr: 5 }}
+            sx={{ display: { xs: 'none', sm: 'block' }, ml: 1, mr: 5 }}
           >
             {title}
           </Typography>
+          </Box>
 
           <Box
             sx={{
               flexGrow: 1,
               mx: { xs: 1, sm: 4 },
               maxWidth: { xs: '100%', sm: 800 },
-              mr: { xs: 5, sm: 0}
+              mr: { xs: 5, sm: 0 }
             }}
           >
-            <Search>
+            <Search sx={{backgroundColor:"#edf2fa"}}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -139,26 +148,25 @@ export default function Header() {
             </Search>
           </Box>
 
-          {/* DESKTOP ICONS */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Tooltip title="Refresh">
-            <IconButton size='larger' color='inherit'sx={{ ml: 22 ,opacity:0.5}}><RefreshOutlinedIcon /></IconButton>
+              <IconButton size='larger' color='inherit' sx={{ ml: 22, opacity: 0.5 }}><RefreshOutlinedIcon /></IconButton>
             </Tooltip>
             <Tooltip title="View">
-            <IconButton size='larger' color='inherit' sx={{opacity:0.5}} onClick={handlepattern}>{click?<GridViewOutlinedIcon />:<ViewStreamOutlinedIcon/>}</IconButton>
+              <IconButton size='larger' color='inherit' sx={{ opacity: 0.5 }} onClick={handlepattern}>{click ? <GridViewOutlinedIcon /> : <ViewStreamOutlinedIcon />}</IconButton>
             </Tooltip>
             <Tooltip title="Settings">
-            <IconButton size='larger' color='inherit' sx={{opacity:0.5}}><SettingsOutlinedIcon /></IconButton>
+              <IconButton size='larger' color='inherit' sx={{ opacity: 0.5 }}><SettingsOutlinedIcon /></IconButton>
             </Tooltip>
             <Tooltip title="Apps">
-            <IconButton size='larger' color='inherit' sx={{ ml: 5, opacity:0.5 }}><AppsOutlinedIcon /></IconButton>
+              <IconButton size='larger' color='inherit' sx={{ ml: 5, opacity: 0.5 }}><AppsOutlinedIcon /></IconButton>
             </Tooltip>
             <Tooltip title="Profile">
-            <IconButton size='larger' color='inherit' onClick={(e) => setAnchorEl(e.currentTarget)}>
-              <Avatar sx={{bgcolor:"orange"}}>
-                {a}
-              </Avatar>
-            </IconButton>
+              <IconButton size='larger' color='inherit' onClick={(e) => setAnchorEl(e.currentTarget)}>
+                <Avatar sx={{ bgcolor: "orange" }}>
+                  {p ? a : "c"}
+                </Avatar>
+              </IconButton>
             </Tooltip>
           </Box>
 
@@ -171,16 +179,16 @@ export default function Header() {
         </Toolbar>
       </AppBar>
 
-       <Toolbar>
-          <Tooltip title="Profile">
-            <IconButton
-              color="inherit"
-              onClick={handleProfileClick}
-            >
-              <AccountCircle />
-            </IconButton>
-          </Tooltip>
-        </Toolbar>
+      <Toolbar>
+        <Tooltip title="Profile">
+          <IconButton
+            color="inherit"
+            onClick={handleProfileClick}
+          >
+            <AccountCircle />
+          </IconButton>
+        </Tooltip>
+      </Toolbar>
       <Poper anchorEl={anchorEl} onClose={handleClose} />
 
       <Menu

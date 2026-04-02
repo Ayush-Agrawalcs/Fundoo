@@ -14,6 +14,7 @@ import Popper from '@mui/material/Popper';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useDrawer } from './DrawerContext';
+import { update } from '../Services/axiosNote';
 
 function ListNote({ saved, setsaved ,handleclick,handelonclickDelete}) {
   const { open } = useDrawer();
@@ -22,6 +23,8 @@ function ListNote({ saved, setsaved ,handleclick,handelonclickDelete}) {
     "#fff", "#faafa8", "#f39f76", "#fff8b8", "#e2f6d3",
     "#b4ddd3", "#d4e4ed", "#aeccdc", "#d3bfdb", "#e9e3d4", "#efeff1"
   ];
+
+  console.log(saved)
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -36,12 +39,7 @@ function ListNote({ saved, setsaved ,handleclick,handelonclickDelete}) {
     if(!n)
       return;
     try{
-      await fetch(`http://localhost:3000/Notes/${n.id}`,{
-        "method":"PATCH",
-         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({[field]:value}),
-      })
-      console.log(saved)
+      await update(n,{[field]:value})
     }
     catch(error){
       console.log(error);
@@ -54,16 +52,11 @@ function ListNote({ saved, setsaved ,handleclick,handelonclickDelete}) {
         i === index ? { ...note, bgcolor: color } : note
       )
     );
-           const n=saved[index];
+      const n=saved[index];
     if(!n)
       return;
     try{
-      await fetch(`http://localhost:3000/Notes/${n.id}`,{
-        "method":"PATCH",
-         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({bgcolor:color}),
-      })
-      console.log(saved)
+      await update(n,{bgcolor: color})
     }
     catch(error){
       console.log(error);
@@ -98,8 +91,20 @@ function ListNote({ saved, setsaved ,handleclick,handelonclickDelete}) {
         }}
       >
         {saved.map((note, index) => (
+                <Box
+              sx={{
+                display: 'flex',
+                mt: 2,
+                position: 'relative',
+
+                '&:hover .hoverContent': {
+                  opacity: 1,
+                  visibility: 'visible',
+                },
+              }}
+            >
           <Paper
-            key={index}
+            key={note.id}
             elevation={3}
             sx={{
               p: 2,
@@ -147,7 +152,15 @@ function ListNote({ saved, setsaved ,handleclick,handelonclickDelete}) {
               />
 
               {/* ICON BAR */}
-              <Box sx={{ display: 'flex', mt: 2 }}>
+              <Box      
+              className="hoverContent"
+                sx={{
+                  display: 'flex',
+                  opacity: 0,
+                  visibility: 'hidden',
+                  transition: 'opacity 0.2s ease',
+                  mt:3
+                }}>
                 <Tooltip title="Formatting options">
                   <FormatColorTextOutlinedIcon sx={{ opacity: 0.5 }} />
                 </Tooltip>
@@ -180,11 +193,12 @@ function ListNote({ saved, setsaved ,handleclick,handelonclickDelete}) {
               </Tooltip>
 
                 <Tooltip title="More options">
-                  <MoreVertOutlinedIcon sx={{ ml: 2, opacity: 0.5 }} />
+                  <MoreVertOutlinedIcon sx={{ ml: 4, opacity: 0.5 }} />
                 </Tooltip>
               </Box>
             </Box>
           </Paper>
+          </Box>
         ))}
       </Box>
 
